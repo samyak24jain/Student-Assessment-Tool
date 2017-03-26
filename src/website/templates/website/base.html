@@ -1,0 +1,64 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% block pagetitle %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'website/css/bootstrap.min.css' %}" />
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static 'website/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'website/js/d3.min.js' %}"></script>
+</head>
+<body>
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" style="margin-bottom: 0px; font-size: 1.5em;">
+		<div class="container-fluid">
+
+		<!-- Logo -->
+		<div class="navbar-header">
+			<a href="" class="navbar-brand" style="font-size: 2em; font-family: 'Fredericka the Great', cursive;">Classroom</a>
+		</div>
+
+		<!-- Menu Items -->
+
+		<div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="{% url 'website:index' %}">Home</a></li>
+				<li><a href="#about">About</a></li>
+				<li><a href="#contact">Contact</a></li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				{% if not request.user.is_authenticated %}
+					<li><a href="{% url 'website:register' %}">Register</a></li>
+					<li><a href="{% url 'website:login' %}">Login</a></li>
+				{% else %}
+					<!-- Single button -->
+					<!-- <div class="btn-group">
+						<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    {{ request.user.username }} <span class="caret"></span>
+					  	</button>
+					  	<ul class="dropdown-menu">
+					    	<li><a href="#">Edit Profile</a></li>
+					    	<li><a href="{% url 'website:logout' %}">Logout</a></li>
+					  	</ul>
+					</div> -->
+
+					<li><a href="{% url 'website:logout' %}">Logout</a></li>
+				{% endif %}
+			</ul>
+		</div>
+
+		</div>
+	</nav>
+
+	{% block content %}
+	{% endblock %}
+
+</body>
+</html>

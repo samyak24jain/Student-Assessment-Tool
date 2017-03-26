@@ -1,0 +1,31 @@
+	
+{% extends 'website/base.html' %}
+
+{% load staticfiles %}
+
+{% block pagetitle %}Classroom{% endblock %}
+    
+
+{% block content %}
+	<div class="jumbotron" style="padding-top: 110px; margin: 0px; border: 0px; background-image: url({% static 'website/classroom.jpg' %}); background-size: cover; height: 100vh; text-align: center;">
+		<h1 style="margin-top: 0px;">Hello there!</h1>
+		<p>Welcome to the Student Assessment Tool</p>
+		<p><a class="btn btn-primary btn-lg" href="#about" role="button">Learn more</a></p>
+	</div>
+	<div class="container-fluid" style="padding: 60px">
+		<div class="row" >
+			<div class="col-md-3" style="text-align: center;">
+				<span class="glyphicon glyphicon-search" aria-hidden="true" style="font-size: 60px; color: red;"></span>
+			</div>
+			<div class="col-md-3" style="text-align: center;">
+				<span class="glyphicon glyphicon-search" aria-hidden="true" style="font-size: 60px; color: red;"></span>
+			</div>
+			<div class="col-md-3" style="text-align: center;">
+				<span class="glyphicon glyphicon-search" aria-hidden="true" style="font-size: 60px; color: red;"></span>
+			</div>
+			<div class="col-md-3" style="text-align: center;">
+				<span class="glyphicon glyphicon-search" aria-hidden="true" style="font-size: 60px; color: red;"></span>
+			</div>
+		</div>
+	</div>
+{% endblock %}
