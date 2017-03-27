@@ -3,21 +3,34 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views.generic import View 
 from .forms import RegisterForm, LoginForm
-from adaptor.model import CsvModel
+from .models import UserProfile, StudentMarks
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
 	return render(request, 'website/index.html')
 
-def about(request):
-	return render(request, 'website/about.html')
+# def about(request):
+# 	return render(request, 'website/about.html')
 
-def contact(request):
-	return render(request, 'website/index.html')
+# def contact(request):
+# 	return render(request, 'website/index.html')
 
 def logout_view(request):
-    logout(request)
-    return redirect('website:index')
+	logout(request)
+	return redirect('website:index')
+
+def student_view(request, x):
+	if request.user.is_authenticated():
+		return render(request, 'website/student_profile.html', {'x': x, 'marks': StudentMarks.objects.get(name=request.user.first_name)})
+	else:
+		return redirect('website:login')
+
+def teacher_view(request):
+	if request.user.is_authenticated():
+		return render(request, 'website/teacher_profile.html')
+	else:
+		return redirect('website:login')		
 
 class RegisterUserView(View):
 	form_class = RegisterForm
@@ -48,9 +61,15 @@ class RegisterUserView(View):
 			if user is not None:
 				if user.is_active:
 					login(request, user)
+					designation = form.cleaned_data['designation']
 					# to use user details on page
 					# request.user.username , request.user.designation , etc.
-					return redirect('website:index')
+					if designation == 'student':
+						# return redirect('website:student', {'user': user})
+						return redirect(reverse('website:student', args=[1]))
+					else:
+						# return redirect('website:teacher', {'user': user})
+						return redirect('website:teacher')
 
 		return render(request, self.template_name, {'form': form})
 
@@ -65,11 +84,21 @@ class LoginUserView(View):
 
 	# process form data
 	def post(self, request):
-	    username = request.POST['username']
-	    password = request.POST['password']
-	    user = authenticate(username=username, password=password)
-	    if user is not None:
-	        login(request, user)
-	        return redirect('website:index')
-	    else:
-	        return redirect('website:login')
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user is not None:
+
+			login(request, user)
+
+			if user.user.designation == 'student':
+				# return redirect('website:student', {'user': user})
+				return redirect(reverse('website:student', args=[1]))
+			else:
+				# return redirect('website:teacher', {'user': user})
+				return redirect('website:teacher')
+
+		else:
+
+			return redirect('website:login')
+

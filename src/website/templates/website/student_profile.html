@@ -2,4 +2,83 @@
 
 {% load staticfiles %}
 
-{% block pagetitle %}{{ request.user.first_name }} | Classroom{% endblock %}
+{% block pagetitle %}{{ user.first_name }} | Classroom{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+	<!-- <div class="row" style="margin-top: 110px;">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="btn-group" role="group">
+			  <button type="button" class="btn btn-default"><a href="{% url 'website:student' 1 %}">Evaluate Performance</a></button>
+			  <button type="button" class="btn btn-default"><a href="{% url 'website:student' 2 %}">Feedback</a></button>
+			  <button type="button" class="btn btn-default"><a href="{% url 'website:student' 3 %}">Learning Material</a></button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" id="performance" onclick="toggleClass()">
+					
+		</div>
+		<div class="col-md-8 col-md-offset-2 hidden" id="feedback" onclick="toggleClass()">
+			
+		</div>
+		<div class="col-md-8 col-md-offset-2 hidden" id="material" onclick="toggleClass()">
+			
+		</div>
+	</div> -->
+	<div class="row text-center" style="margin-top: 110px;">
+		<div class="col-sm-4 col-sm-offset-4">
+			<ul class="nav nav-tabs">
+			  <li class="active"><a data-toggle="tab" href="#performance">Evaluate Performance</a></li>
+			  <li><a data-toggle="tab" href="#feedback">Feedback</a></li>
+			  <li><a data-toggle="tab" href="#material">Learning Material</a></li>
+			</ul>
+
+			<div class="tab-content">
+			  <div id="performance" class="tab-pane fade in active">
+			    <h3>Evaluate Performance</h3>
+			    <canvas id="myChart" width="300" height="300" style="border:1px solid #000000;"> </canvas>
+			  </div>
+			  <div id="feedback" class="tab-pane fade">
+			    <h3>Feedback</h3>
+			    <p>Take feedback</p>
+			  </div>
+			  <div id="material" class="tab-pane fade">
+			    <h3>Learning Material</h3>
+			    <p>Learning resources and material.</p>
+			  </div>
+			</div>	
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		// alert("Hello!");
+		function plot() {
+			var ctx = document.getElementById('myChart');
+			var data = {
+				labels:['m1','m2','m3'], 
+				datasets: [
+						{
+							data:[35,20,37,0],
+						}
+					]
+				};
+			var myBarChart = new Chart(ctx, {
+			    type: 'line',
+			    data: data,
+			});
+		};
+
+		// function toggleClass(id) {
+		// 	element = document.getElementById(id);
+		// 	element.
+		// }
+
+		plot();
+
+	</script>
+
+</div>		
+{% endblock %}
