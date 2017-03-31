@@ -28,7 +28,7 @@
 		</div>
 	</div> -->
 	<div class="row text-center" style="margin-top: 110px;">
-		<div class="col-sm-4 col-sm-offset-4">
+		<div class="col-md-8 col-md-offset-2">
 			<ul class="nav nav-tabs">
 			  <li class="active"><a data-toggle="tab" href="#performance">Evaluate Performance</a></li>
 			  <li><a data-toggle="tab" href="#feedback">Feedback</a></li>
@@ -38,7 +38,7 @@
 			<div class="tab-content">
 			  <div id="performance" class="tab-pane fade in active">
 			    <h3>Evaluate Performance</h3>
-			    <canvas id="myChart" width="300" height="300" style="border:1px solid #000000;"> </canvas>
+			    <canvas id="myChart" width="400" height="200" style="border:1px solid #000000;"> </canvas>
 			  </div>
 			  <div id="feedback" class="tab-pane fade">
 			    <h3>Feedback</h3>
@@ -56,16 +56,24 @@
 	<script type="text/javascript">
 		// alert("Hello!");
 		function plot() {
+			var graphData = [{{marks.mq1}}, {{marks.mq2}}, {{marks.mq3}}, {{marks.mlq}}, {{marks.eq1}}, {{marks.eq2}}, {{marks.eq3}}, {{marks.eq4}}, {{marks.elq}}, {{marks.assignment}}, {{marks.project}},]
 			var ctx = document.getElementById('myChart');
 			var data = {
-				labels:['m1','m2','m3'], 
-				datasets: [
+				labels:['Midsem Q1','Midsem Q2','Midsem Q3','Midsem Lab Q', 'Endsem Q1', 'Endsem Q2','Endsem Q3','Endsem Q4','Endsem Lab Q','Assignment','Project'], 
+				datasets:[
 						{
-							data:[35,20,37,0],
+							data:graphData,
+							label:'Marks Plot',
+							// xAxisID:'Question',
+							// yAxisID:'Marks',	
+							backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				            borderColor: 'rgba(54, 162, 235, 1)',
+				            borderWidth: 2,
+				            fill: false,
 						}
-					]
-				};
-			var myBarChart = new Chart(ctx, {
+					],
+			};
+			var myLineChart = new Chart(ctx, {
 			    type: 'line',
 			    data: data,
 			});

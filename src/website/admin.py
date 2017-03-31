@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import StudentMarks, UserProfile
+from .models import StudentMarks, UserProfile, Department, Course
 # Register your models here.
 
 
@@ -34,7 +34,18 @@ class UserProfileAdmin(admin.ModelAdmin):
 class StudentMarksAdmin(admin.ModelAdmin):
 	list_display = ('rollNo', 'name', 'mq1', 'mq2', 'mq3', 'mlq', 'eq1', 'eq2', 'eq3', 'eq4', 'elq', 'assignment', 'project')
 
+class DepartmentAdmin(admin.ModelAdmin):
+	list_display = ('dept_name','hod','num_of_labs')
+
+class CourseAdmin(admin.ModelAdmin):
+	list_display = ('course_code','course_name','dept_name', 'instructor')
+
+	def dept_name(self, obj):
+		return obj.dept.dept_name
+
 # admin.site.unregister(User)
 admin.site.register(UserProfile, UserProfileAdmin)
 # admin.site.register(User, UserAdmin)
 admin.site.register(StudentMarks, StudentMarksAdmin)
+admin.site.register(Department, DepartmentAdmin)
+admin.site.register(Course, CourseAdmin)
