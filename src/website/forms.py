@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from .models import Feedback,Course
 from django import forms
 
 CHOICES=[('student','Student'),
@@ -17,3 +18,9 @@ class LoginForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ['username', 'password']
+
+class FeedbackForm(forms.ModelForm):
+	course = forms.ModelChoiceField(queryset=Course.objects.all(), empty_label=None, to_field_name='course_code')
+	class Meta:
+		model = Feedback
+		fields = ['course','feedback']

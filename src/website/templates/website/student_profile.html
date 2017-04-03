@@ -7,26 +7,6 @@
 {% block content %}
 
 <div class="container-fluid">
-	<!-- <div class="row" style="margin-top: 110px;">
-		<div class="col-md-4 col-md-offset-4">
-			<div class="btn-group" role="group">
-			  <button type="button" class="btn btn-default"><a href="{% url 'website:student' 1 %}">Evaluate Performance</a></button>
-			  <button type="button" class="btn btn-default"><a href="{% url 'website:student' 2 %}">Feedback</a></button>
-			  <button type="button" class="btn btn-default"><a href="{% url 'website:student' 3 %}">Learning Material</a></button>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2" id="performance" onclick="toggleClass()">
-					
-		</div>
-		<div class="col-md-8 col-md-offset-2 hidden" id="feedback" onclick="toggleClass()">
-			
-		</div>
-		<div class="col-md-8 col-md-offset-2 hidden" id="material" onclick="toggleClass()">
-			
-		</div>
-	</div> -->
 	<div class="row text-center" style="margin-top: 110px;">
 		<div class="col-md-8 col-md-offset-2">
 			<ul class="nav nav-tabs">
@@ -42,7 +22,15 @@
 			  </div>
 			  <div id="feedback" class="tab-pane fade">
 			    <h3>Feedback</h3>
-			    <p>Take feedback</p>
+			    <form class="form-horizontal" role="form" action="{% url 'website:feedback' %}" method="post" enctype="multipart/form-data" style="display: inline-block;">
+			    	{% csrf_token %}
+			        {% include 'website/form_template.html' %}
+			        <div class="form-group">
+			            <div class="col-sm-offset-2 col-sm-10">
+			                <button type="submit" class="btn btn-success">Submit</button>
+			            </div>
+			        </div>
+			    </form>
 			  </div>
 			  <div id="material" class="tab-pane fade">
 			    <h3>Learning Material</h3>
@@ -54,7 +42,7 @@
 
 
 	<script type="text/javascript">
-		// alert("Hello!");
+	
 		function plot() {
 			var graphData = [{{marks.mq1}}, {{marks.mq2}}, {{marks.mq3}}, {{marks.mlq}}, {{marks.eq1}}, {{marks.eq2}}, {{marks.eq3}}, {{marks.eq4}}, {{marks.elq}}, {{marks.assignment}}, {{marks.project}},]
 			var ctx = document.getElementById('myChart');
@@ -64,8 +52,6 @@
 						{
 							data:graphData,
 							label:'Marks Plot',
-							// xAxisID:'Question',
-							// yAxisID:'Marks',	
 							backgroundColor: 'rgba(54, 162, 235, 0.2)',
 				            borderColor: 'rgba(54, 162, 235, 1)',
 				            borderWidth: 2,
@@ -78,12 +64,6 @@
 			    data: data,
 			});
 		};
-
-		// function toggleClass(id) {
-		// 	element = document.getElementById(id);
-		// 	element.
-		// }
-
 		plot();
 
 	</script>

@@ -2,33 +2,28 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout 
 from django.shortcuts import render, redirect
 from django.views.generic import View 
-from .forms import RegisterForm, LoginForm
-from .models import UserProfile, StudentMarks
+from .forms import RegisterForm, LoginForm, FeedbackForm
+from .models import UserProfile, StudentMarks, Feedback, Course
 from django.urls import reverse
 
 # Create your views here.
 def index(request):
 	return render(request, 'website/index.html')
 
-# def about(request):
-# 	return render(request, 'website/about.html')
-
-# def contact(request):
-# 	return render(request, 'website/index.html')
-
 def logout_view(request):
 	logout(request)
 	return redirect('website:index')
 
-def student_view(request, x):
+def student_view(request):
+	form = FeedbackForm(None)
 	if request.user.is_authenticated():
-		return render(request, 'website/student_profile.html', {'x': x, 'marks': StudentMarks.objects.get(name=request.user.first_name)})
+		return render(request, 'website/student_profile.html', {'marks': StudentMarks.objects.get(name=request.user.first_name),'form': form})
 	else:
 		return redirect('website:login')
 
 def teacher_view(request):
 	if request.user.is_authenticated():
-		return render(request, 'website/teacher_profile.html')
+		return render(request, 'website/teacher_profile.html', {'students': StudentMarks.objects.all(), 'feedbacks': Feedback.objects.filter(course=Course.objects.get(instructor=request.user.username))})
 	else:
 		return redirect('website:login')		
 
@@ -65,10 +60,8 @@ class RegisterUserView(View):
 					# to use user details on page
 					# request.user.username , request.user.designation , etc.
 					if designation == 'student':
-						# return redirect('website:student', {'user': user})
-						return redirect(reverse('website:student', args=[1]))
+						return redirect(reverse('website:student'))
 					else:
-						# return redirect('website:teacher', {'user': user})
 						return redirect('website:teacher')
 
 		return render(request, self.template_name, {'form': form})
@@ -92,13 +85,21 @@ class LoginUserView(View):
 			login(request, user)
 
 			if user.user.designation == 'student':
-				# return redirect('website:student', {'user': user})
-				return redirect(reverse('website:student', args=[1]))
+				return redirect(reverse('website:student'))
 			else:
-				# return redirect('website:teacher', {'user': user})
-				return redirect('website:teacher')
+				return redirect(reverse('website:teacher'))
 
 		else:
 
 			return redirect('website:login')
 
+
+def FeedbackView(request):
+	if request.method == 'POST':		
+		form = FeedbackForm(request.POST)
+		if form.is_valid():
+			# does not save to database, just creates form object
+			feedback = form.save(commit=False)
+			feedback.student = UserProfile.objects.get(user=request.user)
+			feedback.save()
+	return redirect('website:student')

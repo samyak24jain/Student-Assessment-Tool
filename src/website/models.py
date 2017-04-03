@@ -51,4 +51,12 @@ class Course(models.Model):
 	instructor = models.CharField(max_length=200)
 
 	def __str__(self):
-		return self.course_code + ' : ' + self.course_name
+		return self.course_code + ':' + self.course_name
+
+class Feedback(models.Model):
+	course = models.ForeignKey(Course, on_delete=models.CASCADE)
+	feedback = models.CharField(max_length=1000)
+	student = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.course.course_code + ' : ' + self.course.course_name

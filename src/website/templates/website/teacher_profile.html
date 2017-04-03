@@ -1,0 +1,91 @@
+{% extends 'website/base.html' %}
+
+{% load staticfiles %}
+
+{% block pagetitle %}{{ user.first_name }} | Classroom{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row text-center" style="margin-top: 110px;">
+		<div class="col-md-8 col-md-offset-2">
+			<ul class="nav nav-tabs">
+			  <li class="active"><a data-toggle="tab" href="#students">Students</a></li>
+			  <li><a data-toggle="tab" href="#feedback">Feedback</a></li>
+			  <li><a data-toggle="tab" href="#material">Learning Material</a></li>
+			</ul>
+
+			<div class="tab-content">
+			  <div id="students" class="tab-pane fade in active">
+			    <h3>Students</h3>
+			    <table class="table table-hover">
+			      <tr>
+			      	<th>Roll Number</th>
+			      	<th>Student Name</th>
+			      	<th>Midsem Theory</th>
+			      	<th>Midsem Lab</th>
+			      	<th>Endsem Theory</th>
+			      	<th>Endsem Lab</th>
+			      	<th>Project</th>
+			      	<th>Assignment</th>
+			      </tr>
+			      {% for student in students %}
+			      	<tr>
+			      		<td>
+			      			{{ student.rollNo }}
+			      		</td>
+			      		<td>
+			      			{{ student.name }}
+			      		</td>
+			      		<td>
+			      			{{ student.mq1|add:student.mq2|add:student.mq3 }}
+			      		</td>
+			      		<td>
+			      			{{ student.mlq }}
+			      		</td>
+			      		<td>
+			      			{{ student.eq1|add:student.eq2|add:student.eq3 }}
+			      		</td>
+			      		<td>
+			      			{{ student.elq }}
+			      		</td>
+			      		<td>
+			      			{{ student.project }}
+			      		</td>
+			      		<td>
+			      			{{ student.assignment }}
+			      		</td>
+			      	</tr>
+			      {% endfor %}
+			    </table>
+			  </div>
+			  <div id="feedback" class="tab-pane fade">
+			    <h3>Feedback</h3>
+			    <table class="table table-hover">
+			    	<tr>
+			    		<th>
+			    			Student Name
+			    		</th>
+			    		<th>
+			    			Feedback
+			    		</th>
+			    	</tr>
+			    	{% for feedback in feedbacks %}
+				    	<tr>
+				    		<td>{{ feedback.student.user.first_name }}</td>
+				    		<td>{{ feedback.feedback }}</td>
+				    	</tr>
+				    {% endfor %}
+			    </table>
+			  </div>
+			  <div id="material" class="tab-pane fade">
+			    <h3>Learning Material</h3>
+			    <p>Learning resources and material.</p>
+			  </div>
+			</div>	
+		</div>
+	</div>
+
+</div>	
+
+{% endblock %}

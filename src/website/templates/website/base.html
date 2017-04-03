@@ -22,7 +22,7 @@
 
 		<!-- Logo -->
 		<div class="navbar-header">
-			<a href="" class="navbar-brand" style="font-size: 2em; font-family: 'Fredericka the Great', cursive;">Classroom</a>
+			<a href="{% url 'website:index' %}" class="navbar-brand" style="font-size: 2em; font-family: 'Fredericka the Great', cursive;">Classroom</a>
 		</div>
 
 		<!-- Menu Items -->
@@ -39,16 +39,11 @@
 					<li><a href="{% url 'website:register' %}">Register</a></li>
 					<li><a href="{% url 'website:login' %}">Login</a></li>
 				{% else %}
-					<!-- Single button -->
-					<!-- <div class="btn-group">
-						<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					    {{ request.user.username }} <span class="caret"></span>
-					  	</button>
-					  	<ul class="dropdown-menu">
-					    	<li><a href="#">Edit Profile</a></li>
-					    	<li><a href="{% url 'website:logout' %}">Logout</a></li>
-					  	</ul>
-					</div> -->
+					{% if request.user.user.designation == 'student' %}
+						<li><a href="{% url 'website:student' %}">Class</a></li>
+					{% else %}
+						<li><a href="{% url 'website:teacher' %}">Class</a></li>
+					{% endif %}
 
 					<li><a href="{% url 'website:logout' %}">Logout</a></li>
 				{% endif %}
