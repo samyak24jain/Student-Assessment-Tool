@@ -6,7 +6,7 @@ The primary objectives of this website can be found at `/docs/Objectives.pdf`
 * Install the dependencies:
 
 ```shell
-pip install -r requirements/requirements.txt
+pip install -r requirements/development.txt
 ```
 
 * Run migrations:
